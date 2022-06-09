@@ -7,9 +7,9 @@ Created on Sun Jun  5 13:23:57 2022
 
 import pandas as pd
 import os
-import seaborn as sns
+#import seaborn as sns
 
-#### Merging 12 months of sales
+##### Merging 12 months of sales
 
 
 files = [file for file in os.listdir('./Sales_Data')]
@@ -34,7 +34,7 @@ all_data.head()
 
 ############## CLEAN UP THE DATA
 
-######## Drop rows of nan
+##### Drop rows of nan
 
 nan_df = all_data[all_data.isna().any(axis=1)]
 nan_df.head()
@@ -43,7 +43,7 @@ all_data = all_data.dropna(how='all')
 all_data.head()
 
 #heatmap to check nulls
-sns.heatmap(all_data=pd.isnullall(all_data))
+#sns.heatmap(all_data=pd.isnull(all_data))
 
 ############# Find or and delete it 
 
@@ -51,14 +51,14 @@ sns.heatmap(all_data=pd.isnullall(all_data))
 all_data = all_data[all_data['Order Date'].str[0:2] != 'Or']
 
 
-################ Convert columns to the correct type
+############# Convert columns to the correct type
 
 all_data['Quantity Ordered'] = pd.to_numeric(all_data['Quantity Ordered'])
 all_data['Price Each'] = pd.to_numeric(all_data['Price Each'])
 
 
 
-#### AUGMENT DATA WITH ADDITIONAL COLUMNS
+##### AUGMENT DATA WITH ADDITIONAL COLUMNS
 ##### TASK 2 ADD MONTH COLUMN
 all_data['Month'] = all_data['Order Date'].str[0:2]
 all_data.head()
@@ -71,7 +71,7 @@ all_data['Sales'] = all_data['Quantity Ordered'] * all_data['Price Each']
 all_data.head()
 
 
-######## TASK 4 ADD A CITY COLUMN
+########### TASK 4 ADD A CITY COLUMN
 
 def get_city(address):
     return address.split(",")[1].strip(" ")
@@ -89,7 +89,7 @@ all_data['Minute'] = pd.to_datetime(all_data['Order Date']).dt.minute
 all_data['Count'] = 1
 all_data.head() 
 
-### QUESTION 1 WHAT WAS THE BEST MONTH FOR SALES? HOW MUCH WAS EARNED THAT MONTH?
+### WHAT WAS THE BEST MONTH FOR SALES? HOW MUCH WAS EARNED THAT MONTH?
 
 
 results = all_data.groupby('Month').sum()
@@ -106,7 +106,7 @@ plt.show()
 
 
 
-#### Question 2: What city had the highest number of sales
+#### What city had the highest number of sales
 
 all_data.groupby(['City']).sum()
 
@@ -121,7 +121,7 @@ plt.xticks(cities, rotation='vertical', size=8)
 plt.show() #
 
 
-###### Question 3: What time should we display advertisements to maximize likelihood of custormer's buying product?
+#### What time should we display advertisements to maximize likelihood of custormer's buying product?
 
 keys = [pair for pair, df in all_data.groupby(['Hour'])]
 
@@ -133,7 +133,7 @@ plt.grid()
 plt.show()
 
 
-###### Question 4 : What products are most often sold together
+#### What products are most often sold together?
     
 
 
@@ -157,7 +157,7 @@ for key,value in count.most_common(10):
     print(key, value)
 
 
-############# Question 5 : What product sold the most? Why do you think it sold the most?
+#### What product sold the most? Why do you think it sold the most?
 
 
 product_group = all_data.groupby('Product')
